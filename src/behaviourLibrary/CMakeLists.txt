@@ -1,0 +1,37 @@
+cmake_minimum_required(VERSION 2.8)
+project(behaviourLibrary C CXX)
+
+find_package(Aria REQUIRED)
+find_package(BaseArnl REQUIRED)
+find_package(Arnl)
+find_package(SonArnl)
+
+include_directories(
+    .
+    ${Aria_INCLUDE_DIRS}
+    ${Arnl_INCLUDE_DIRS}
+    ${SonArnl_INCLUDE_DIRS}
+)
+
+set( LIBRARIES
+    ${LIBRARIES}
+    ${Aria_LIBRARIES}
+    ${Arnl_LIBRARIES}
+    ${SonArnl_LIBRARIES}
+)
+
+file(GLOB CURRENT_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/*.h*")
+file(GLOB CURRENT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.c*")
+
+add_library(${PROJECT_NAME} SHARED ${CURRENT_SOURCES} ${CURRENT_HEADERS})
+add_library(${PROJECT_NAME}Static STATIC ${CURRENT_SOURCES} ${CURRENT_HEADERS})
+
+target_link_libraries(${PROJECT_NAME} ${LIBRARIES})
+
+set(${PROJECT_NAME}_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/${PROJECT_NAME} CACHE INTERNAL "")
+set(${PROJECT_NAME}_LIBRARY_DIRS ${CMAKE_BINARY_DIR} CACHE INTERNAL "")
+if(WIN32)
+    set(${PROJECT_NAME}_LIBRARIES ${LIBRARIES} ${PROJECT_NAME}Static CACHE INTERNAL "")
+else(WIN32)
+    set(${PROJECT_NAME}_LIBRARIES ${LIBRARIES} ${PROJECT_NAME} CACHE INTERNAL "")
+endif(WIN32)

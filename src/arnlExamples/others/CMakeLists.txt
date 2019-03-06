@@ -1,0 +1,9 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+ADD_SUBDIRECTORY(centralServerExample)
+ADD_SUBDIRECTORY(combinedJustLocalization)
+ADD_SUBDIRECTORY(combinedServer)
+ADD_SUBDIRECTORY(goalClient)
+#ADD_SUBDIRECTORY(sickLogger)
+ADD_SUBDIRECTORY(sonarnlJustLocalization)
+ADD_SUBDIRECTORY(sonarnlServer)

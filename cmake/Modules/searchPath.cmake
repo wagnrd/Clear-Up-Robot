@@ -1,0 +1,7 @@
+IF(WIN32)
+	SET(ARIA_BASE_PATH "C:/MobileRobots/")
+ELSE()
+	SET(ARIA_BASE_PATH "/usr/local/")
+ENDIF()
+SET(ARIA_PATH "${ARIA_BASE_PATH}Aria/")
+SET(ARNL_PATH "${ARIA_BASE_PATH}Arnl/")

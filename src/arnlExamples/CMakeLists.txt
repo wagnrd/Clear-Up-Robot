@@ -1,0 +1,10 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+add_definitions(-DARNL -DSONARNL)
+
+ADD_SUBDIRECTORY(arnlJustLocalization)
+ADD_SUBDIRECTORY(arnlServer)
+ADD_SUBDIRECTORY(justPathPlanning)
+ADD_SUBDIRECTORY(simpleDemo)
+
+#ADD_SUBDIRECTORY(others)

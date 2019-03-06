@@ -1,0 +1,81 @@
+FIND_PACKAGE(Threads REQUIRED)
+
+INCLUDE(searchPath)
+
+FIND_PATH(Aria_INCLUDE_DIR Aria.h
+    "${ARIA_PATH}include"
+    )
+	
+SET(Aria_FOUND FALSE)
+
+IF(WIN32)
+  IF(MSVC10)
+    SET(Aria_SUFFIX_NAME VC10)
+  ELSEIF(MSVC90)
+    SET(Aria_SUFFIX_NAME VC9)
+  ELSEIF(MSVC80)
+    SET(Aria_SUFFIX_NAME VC8)
+  ELSEIF(MSVC71)
+    SET(Aria_SUFFIX_NAME VC71)
+  ELSE()
+    SET(Aria_SUFFIX_NAME "")
+  ENDIF()
+ 
+  FIND_LIBRARY(Aria_LIBRARY_DEBUG
+    NAMES AriaDebug${Aria_SUFFIX_NAME}
+    PATHS 
+    "${ARIA_PATH}lib"
+  )
+  
+  FIND_LIBRARY(Aria_LIBRARY_RELEASE
+    NAMES Aria${Aria_SUFFIX_NAME}
+    PATHS 
+    "${ARIA_PATH}lib"
+    )
+	
+  set(Aria_LIBRARIES "")
+  IF(Aria_LIBRARY_RELEASE AND Aria_INCLUDE_DIR)
+    SET(Aria_INCLUDE_DIRS ${Aria_INCLUDE_DIR})
+    LIST(APPEND Aria_LIBRARIES optimized ${Aria_LIBRARY_RELEASE})
+    SET(Aria_FOUND TRUE)
+  ENDIF()
+  IF(Aria_LIBRARY_DEBUG AND Aria_INCLUDE_DIR)
+    SET(Aria_INCLUDE_DIRS ${Aria_INCLUDE_DIR})
+    LIST(APPEND Aria_LIBRARIES debug ${Aria_LIBRARY_DEBUG})
+    SET(Aria_FOUND TRUE)
+  ENDIF()	
+ELSE()
+  FIND_LIBRARY(Aria_LIBRARY
+    NAMES Aria
+    PATHS 
+    "${ARIA_PATH}lib"
+    )
+  IF(Aria_LIBRARY AND Aria_INCLUDE_DIR)
+    SET(Aria_INCLUDE_DIRS ${Aria_INCLUDE_DIR})
+    SET(Aria_LIBRARIES 
+        ${Aria_LIBRARY}
+        ${CMAKE_THREAD_LIBS_INIT}
+        ${CMAKE_DL_LIBS}
+        -lrt
+        -ldl
+    )
+    SET(Aria_FOUND TRUE)
+  ENDIF()
+ENDIF()
+  
+MARK_AS_ADVANCED(
+    Aria_INCLUDE_DIR
+    Aria_LIBRARY_DEBUG
+    Aria_LIBRARY
+    Aria_LIBRARY_RELEASE
+    )
+
+IF(Aria_FOUND)
+    IF(NOT Aria_FIND_QUIETLY)
+        MESSAGE(STATUS "Found Aria: ${Aria_LIBRARY}")
+    ENDIF(NOT Aria_FIND_QUIETLY)
+ELSE(Aria_FOUND)
+    IF(Aria_FIND_REQUIRED)
+        MESSAGE(FATAL_ERROR "Could not find the Aria Library")
+    ENDIF(Aria_FIND_REQUIRED)
+ENDIF(Aria_FOUND)

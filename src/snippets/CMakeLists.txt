@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 2.8)
+
+add_subdirectory(directAction)
+add_subdirectory(helloWorld)
+add_subdirectory(robotInfo)
+add_subdirectory(sensors)
+add_subdirectory(maps)
+add_subdirectory(pathPlanning)
+add_subdirectory(gripper)
+add_subdirectory(camera)
